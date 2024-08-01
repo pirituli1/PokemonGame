@@ -3,6 +3,7 @@ import { GameStatus } from '../interfaces/game-status.enum';
 import type { PokemonListResponse } from '../interfaces/pokemon-list.response';
 import type { Pokemon } from '../interfaces/pokemon.interfaces';
 import { pokemonApi } from '../api/pokemonApi';
+import confetti from 'canvas-confetti'
 
 export const usePokemonGame = () => {
   const gameStatus = ref<GameStatus>(GameStatus.Playing);
@@ -40,7 +41,21 @@ export const usePokemonGame = () => {
     pokemons.value = pokemons.value.slice(howMany);
   }
 
-
+  const checkAnwer = (id: number) => {
+    const hasWon = randomPokemon.value.id === id;
+    if(hasWon) {
+      gameStatus.value = GameStatus.Won
+      confetti({
+        particleCount: 300,
+        spread: 150,
+        origin: {
+          y: 0.6
+        }
+      })
+      return;
+    }
+    gameStatus.value = GameStatus.Lost;
+  }
 
   onMounted(async() => {
     // await new Promise (r => setTimeout(r,1000));
@@ -60,5 +75,6 @@ export const usePokemonGame = () => {
 
     //Methods 
     getNextOption,
+    checkAnwer
   };
 };
