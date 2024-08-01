@@ -35,7 +35,7 @@ export const usePokemonGame = () => {
     return pokemonsArray.sort( ()=> Math.random() - 0.5 );
   };
 
-  const getNextOption = ( howMany: number = 4) => {
+  const getNextRound = ( howMany: number = 4) => {
     gameStatus.value = GameStatus.Playing;
     pokemonOptions.value = pokemons.value.slice(0,howMany);
     pokemons.value = pokemons.value.slice(howMany);
@@ -61,7 +61,7 @@ export const usePokemonGame = () => {
     // await new Promise (r => setTimeout(r,1000));
 
     pokemons.value = await getPokemons();
-    getNextOption();
+    getNextRound();
     console.log(pokemonOptions.value)
     
 
@@ -74,7 +74,7 @@ export const usePokemonGame = () => {
     randomPokemon,
 
     //Methods 
-    getNextOption,
+    getNextRound,
     checkAnwer
   };
 };

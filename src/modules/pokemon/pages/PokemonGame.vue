@@ -9,7 +9,13 @@
 
   <section v-else class="flex flex-col justify-center items-center w-screen h-screen">
     <h1 class="m-5">¿Quién es este pókemon?</h1>
-    <h3 class="capitalize"> {{ gameStatus }} </h3>
+      <div class="h-20">
+        <button 
+        v-if="gameStatus !== GameStatus.Playing" 
+        @click="getNextRound(4)"
+        class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-800 transition-all"> ¿Jugar de nuevo?</button>
+      </div>
+
     
     <!-- <h3>{{ randomPokemon }}</h3> -->
 
@@ -18,7 +24,8 @@
     <!--Pokemon option -->
     <PokemonOptions 
     :options = "options"
-    :block-selection = ""
+    :block-selection = "gameStatus !== GameStatus.Playing"
+    :correct-answer = "randomPokemon.id"
      @selected-option="checkAnwer"/>
   </section>
 </template>
@@ -30,6 +37,6 @@ import PokemonPicture from '../components/PokemonPicture.vue';
 import { usePokemonGame } from '../composables/usePokemonGame';
 import { GameStatus } from '../interfaces/game-status.enum';
 
-const { randomPokemon, isLoading, gameStatus, pokemonOptions:options, checkAnwer } = usePokemonGame();
+const { randomPokemon, isLoading, gameStatus, pokemonOptions:options, checkAnwer, getNextRound } = usePokemonGame();
 
 </script>
